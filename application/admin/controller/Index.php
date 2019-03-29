@@ -11,6 +11,6 @@ class Index extends Controller
 
     public function welcome()
     {
-        return "测试";
+        \Map::getLngLat('北京市海淀区上地十街10号');
     }
 }

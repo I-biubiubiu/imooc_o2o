@@ -21,7 +21,8 @@ class Category extends validate
     ];
 
     protected $scene = [
-        'add'       => ['name', 'parent_id'],
-        'listorder' => ['id', 'listorder']
+        'add'       => ['name', 'parent_id', 'id'],
+        'listorder' => ['id', 'listorder'],
+        'status'    => ['id', 'status']
     ];
 }
