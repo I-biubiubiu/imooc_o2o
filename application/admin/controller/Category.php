@@ -56,7 +56,7 @@ class Category extends Controller
             $this->error('新增失败');
         }
     }
-
+ 
     // 编辑视图
     public function edit($id = 0)
     {
