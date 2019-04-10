@@ -18,4 +18,10 @@ class Index extends Controller
     {
         return \Map::staticimage('北京市海淀区上地十街10号');
     }
+
+    public function email()
+    {
+        \phpmailer\Email::send(1,1,1);
+        return '发送邮件成功';
+    }
 }
