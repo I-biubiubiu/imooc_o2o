@@ -8,5 +8,5 @@ return [
     'geocoder'      => '/geocoder/v2/',
     'width'         => 400,
     'height'        => 300,
-    'staticimage'   => 'staticimage/v2'
+    'staticimage'   => '/staticimage/v2'
 ];
