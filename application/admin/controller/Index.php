@@ -21,7 +21,7 @@ class Index extends Controller
 
     public function email()
     {
-        \phpmailer\Email::send(1,1,1);
+        \phpmailer\Email::send('363310279@qq.com','这是标题','这是内容');
         return '发送邮件成功';
     }
 }
