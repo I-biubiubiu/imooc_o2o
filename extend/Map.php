@@ -22,7 +22,12 @@ class Map
         $url = config('map.baidu_map_url').config('map.geocoder').'?'.http_build_query($data);
 
         $result = doCurl($url);
-        return $result;
+        if($result) {
+            return json_decode($result, true);
+        } else {
+            return [];
+        }
+        // return $result;
     }
     
     // http://api.map.baidu.com/staticimage/v2
