@@ -35,6 +35,13 @@ class Register extends Controller
             $this->error('无法获取数据, 或者匹配的地址不精确');
         }
 
+        // 判断提交的用户是否存在
+        $accountResult = Model('BisAccount')->get(['username'=>$data['username']]);
+
+        if($accountResult) {
+            $this->error('该用户已存在, 请重新分配');
+        }
+
         // 商户基本信息入库
         $bisData = [
             'name' => $data['name'],
@@ -62,13 +69,14 @@ class Register extends Controller
         $locationData = [
             'bis_id' => $bisId,
             'name' => $data['name'],
+            'logo' => $data['logo'],
             'tel' => $data['tel'],
             'contact' => $data['contact'],
             'category_id' => $data['category_id'],
             'category_path' => $data['category_id'] . ',' . $data['cat'],
             'city_id' => $data['city_id'],
             'city_path' => empty($data['se_city_id']) ? $data['city_id'] : $data['city_id'].','.$data['se_city_id'],
-            'address' => $data['address'],
+            'api_address' => $data['address'],
             'open_time' => $data['open_time'],
             'content' => empty($data['content']) ? '' : $data['content'],
             'is_main' => 1, // 代表的是总店信息
@@ -88,6 +96,35 @@ class Register extends Controller
             'password' => md5($data['password'] . $data['code']),
             'is_main' => 1 //代表的是总管理员
         ];
+
+        $accountId = model('BisAccount')->add($accounData);
+
+        if(!$accountId) {
+            $this->error('申请失败');
+        }
+
+        // 发送邮件
+        $url = request()->domain().url('bis/register/waiting', ['id'=>$bisId]);
+        $title = "商家入驻申请通知";
+        $content = "您提交的入驻申请需要等待平台方审核,您可以通过点击链接<a href='".$url."' targent='_blank'>查看链接</a> 查看审核状态";
+
+        \phpmailer\Email::send($data['email'], $title, $content);
+
+        $this->success('申请成功', url('register/waiting', ['id' => $bisId]));
+    }
+
+    // 用户确认邮箱
+    public function waiting($id)
+    {
+        if(empty($id)) {
+            $this->error('error');
+        }
+
+        $detail = model('Bis')->get($id);
+
+        $this->assign('detail', $detail);
+
+        return $this->fetch();
     }
 
 }

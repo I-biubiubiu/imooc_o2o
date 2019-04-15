@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	{if condition="$categorys->render() neq null"}
-	<div class="cl pd-5 bg-1 bk-gray mt-20 tp5-o2o">{$categorys->render()|raw}</div>
+	{:pagination($categorys)}
 	{/if}
 	<!--包含头部文件-->
 	{include file="public/footer" /}
