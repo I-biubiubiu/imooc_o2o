@@ -17,6 +17,27 @@ class Bis extends Controller
     // 入驻申请编辑页
     public function detail()
     {
+        $id = request()->param('id');
+        if(empty($id)) {
+            return $this->error('ID错误');
+        }
+        // 获取一级城市的数据
+        $citys = model('City')->getNormalCitysByParentId();
+        // 获取一级栏目的数据
+        $categorys = model('Category')->getNormalCategoryByParentId();
+        // 获取商户数据
+        $bisData = model('Bis')->get($id);
+        $locationData = model('BisLocation')->get(['bis_id'=>$id, 'is_main'=>1]);
+        $accountData = model('BisAccount')->get(['bis_id'=>$id, 'is_main'=>1]);
+
+
+        $this->assign([
+            'citys' => $citys,
+            'categorys' => $categorys,
+            'bisData' => $bisData,
+            'locationData' => $locationData,
+            'accountData' => $accountData
+        ]);
         return $this->fetch();
     }
 }
