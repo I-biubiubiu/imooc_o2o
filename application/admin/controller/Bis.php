@@ -40,4 +40,17 @@ class Bis extends Controller
         ]);
         return $this->fetch();
     }
+
+    // 修改状态
+    public function status()
+    {
+        $data = request()->get();
+
+        $res = $this->obj->save(['status'=>$data['status']], ['id'=>$data['id']]);
+        if($res) {
+            $this->success('状态更新成功');
+        } else {
+            $this->error('状态更新失败');
+        }
+    }
 }
