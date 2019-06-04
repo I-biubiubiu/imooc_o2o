@@ -17,4 +17,4 @@ Route::get('hello/:name', 'index/hello');
 
 return [
 
-];
+]; 
